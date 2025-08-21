@@ -10,7 +10,8 @@
 #include "configs.cuh"
 #include "exception.cuh"
 #include "utils.cuh"
-
+// Needed for the declaration of nvshmemi_ibgda_device_state_d
+#include <device_host_transport/nvshmem_common_ibgda.h>
 namespace deep_ep {
 
 EP_STATIC_ASSERT(NVSHMEMI_IBGDA_MIN_QP_DEPTH >= 64, "Invalid QP minimum depth");
