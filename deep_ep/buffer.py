@@ -101,7 +101,7 @@ class Buffer:
             os.environ['NVSHMEM_QP_DEPTH'] = os.environ.get('NVSHMEM_QP_DEPTH', '1024')
 
             os.environ['NVSHMEM_ENABLE_NIC_PE_MAPPING'] = os.environ.get('NVSHMEM_ENABLE_NIC_PE_MAPPING', '1')
-            os.environ['NVSHMEM_HCA_LIST'] = os.environ.get('NVSHMEM_HCA_LIST', 'mlx5_0:1,mlx5_1:1,mlx5_2:1,mlx5_3:1,mlx5_4:1,mlx5_5:1,mlx5_6:1,mlx5_7:1')
+            #os.environ['NVSHMEM_HCA_LIST'] = os.environ.get('NVSHMEM_HCA_LIST', 'mlx5_0:1,mlx5_1:1,mlx5_2:1,mlx5_3:1,mlx5_4:1,mlx5_5:1,mlx5_6:1,mlx5_7:1')
             # Reduce gpu memory usage
             # 6 default teams + 1 extra team
             os.environ['NVSHMEM_MAX_TEAMS'] = '7'
