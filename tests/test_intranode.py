@@ -1,5 +1,6 @@
 import argparse
 import time
+import os
 import torch
 import torch.distributed as dist
 
@@ -256,6 +257,25 @@ def test_loop(local_rank: int, num_local_ranks: int, args: argparse.Namespace):
     dist.barrier()
     dist.destroy_process_group()
 
+def print_nvshmem_env_vars():
+    print("=" * 60)
+    print("NVSHMEM Environment Variables Check")
+    print("=" * 60)
+    
+    env_vars = [
+        'NVSHMEM_IB_ENABLE_IBGDA',
+        'NVSHMEM_IBGDA_NIC_HANDLER', 
+        'NVSHMEM_IBGDA_NUM_RC_PER_PE',
+        'NVSHMEM_ENABLE_NIC_PE_MAPPING',
+        'NVSHMEM_HCA_LIST',
+        'NVSHMEM_QP_DEPTH',
+        'NVSHMEM_DIR'
+    ]
+    
+    for var in env_vars:
+        value = os.getenv(var, 'NOT SET')
+        print(f"{var:30} = {value}")
+    print("=" * 60)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Test intranode EP kernels')
@@ -271,5 +291,6 @@ if __name__ == '__main__':
                        help='Number of experts (default: 256)')
     args = parser.parse_args()
 
+    print_nvshmem_env_vars()
     num_processes = args.num_processes
     torch.multiprocessing.spawn(test_loop, args=(num_processes, args), nprocs=num_processes)
