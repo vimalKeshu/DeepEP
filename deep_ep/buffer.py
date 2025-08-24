@@ -231,11 +231,18 @@ class Buffer:
         """
 
         # TODO: automatically tune
+        #    int num_sms;    
+        # int num_max_nvl_chunked_send_tokens; 
+        #  int num_max_nvl_chunked_recv_tokens; 
+        #  int num_max_rdma_chunked_send_tokens;
+        #  int num_max_rdma_chunked_recv_tokens;
+
         config_map = {
             2: Config(Buffer.num_sms, 24, 256, 6, 128),
             4: Config(Buffer.num_sms, 6, 256, 6, 128),
             8: Config(Buffer.num_sms, 6, 256, 6, 128),
-            16: Config(Buffer.num_sms, 36, 288, 20, 128),
+            # 16: Config(Buffer.num_sms, 36, 288, 20, 128),
+            16: Config(int(os.getenv('Buffer.num_sms', Buffer.num_sms)), int(os.getenv('dispatch_num_max_nvl_chunked_send_tokens', 36)), int(os.getenv('dispatch_num_max_nvl_chunked_recv_tokens', 288)), int(os.getenv('dispatch_num_max_rdma_chunked_send_tokens', 20)), int(os.getenv('dispatch_num_max_rdma_chunked_recv_tokens', 128))),
             24: Config(Buffer.num_sms, 8, 288, 32, 128),
             32: Config(Buffer.num_sms, 32, 288, 32, 128),
             64: Config(Buffer.num_sms, 20, 288, 28, 128),
@@ -263,7 +270,8 @@ class Buffer:
             2: Config(Buffer.num_sms, 10, 256, 6, 128),
             4: Config(Buffer.num_sms, 9, 256, 6, 128),
             8: Config(Buffer.num_sms, 4, 256, 6, 128),
-            16: Config(Buffer.num_sms, 4, 288, 12, 128),
+            # 16: Config(Buffer.num_sms, 4, 288, 12, 128),
+            16: Config(int(os.getenv('Buffer.num_sms', Buffer.num_sms)), int(os.getenv('combine_num_max_nvl_chunked_send_tokens', 4)), int(os.getenv('combine_num_max_nvl_chunked_recv_tokens', 288)), int(os.getenv('combine_num_max_rdma_chunked_send_tokens', 12)), int(os.getenv('combine_num_max_rdma_chunked_recv_tokens', 128))),
             24: Config(Buffer.num_sms, 1, 288, 8, 128),
             32: Config(Buffer.num_sms, 1, 288, 8, 128),
             64: Config(Buffer.num_sms, 1, 288, 20, 128),
