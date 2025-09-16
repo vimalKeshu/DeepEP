@@ -242,7 +242,7 @@ void Buffer::sync(const std::vector<int> &device_ids,
 std::tuple<torch::Tensor, std::optional<torch::Tensor>, torch::Tensor, torch::Tensor, std::optional<EventHandle>>
 Buffer::get_dispatch_layout(const torch::Tensor& topk_idx, int num_experts,
                             std::optional<EventHandle>& previous_event, bool async, bool allocate_on_comm_stream) {
-    EP_HOST_ASSERT(topk_idx.dim() == 2);
+    EP_HOST_ASSERT(topk_idx.dim() == 2); // shape: [num_tokens, num_topk].
     EP_HOST_ASSERT(topk_idx.is_contiguous());
     EP_HOST_ASSERT(num_experts > 0);
 
