@@ -125,6 +125,18 @@ class Buffer:
                 # Disable multi-node NVLink detection
                 os.environ['NVSHMEM_DISABLE_MNNVL'] = '1'
 
+            if not low_latency_mode:
+                nvl_rank = self.rank % 8  # node-local GPU index (0-7)
+                # Map: 2 GPUs per NIC, matching PCIe topology from nvidia-smi topo -m
+                _nic_map = {
+                    0: "mlx5_0:1", 1: "mlx5_1:1",
+                    2: "mlx5_2:1", 3: "mlx5_3:1",
+                    4: "mlx5_4:1", 5: "mlx5_5:1",
+                    6: "mlx5_6:1", 7: "mlx5_7:1",
+                }
+                os.environ['NVSHMEM_ENABLE_NIC_PE_MAPPING'] = '1'
+                os.environ['NVSHMEM_HCA_LIST'] = _nic_map[nvl_rank]
+
             # Synchronize using the root ID
             if (low_latency_mode and self.rank == 0) or (not low_latency_mode and self.runtime.get_rdma_rank() == 0):
                 root_unique_id = self.runtime.get_local_nvshmem_unique_id()
